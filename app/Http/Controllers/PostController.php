@@ -46,13 +46,7 @@ class PostController extends Controller
             'status' => 'required'
         ]);
 
-        $file = $request->file('file');
-
-        $name = time() . $file->getClientOriginalName();
-
-        $input['filename'] = 'posts/' . $name;
-
-        Storage::disk('s3')->put($input['filename'], $request->file);
+        $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
 
         Post::create($input);
 
@@ -90,13 +84,7 @@ class PostController extends Controller
 
         if ($request->hasFile('file')) {
 
-            $file = $request->file('file');
-
-            $name = time() . $file->getClientOriginalName();
-
-            $input['filename'] = 'posts/' . $name;
-
-            Storage::disk('s3')->put($input['filename'], $request->file);
+            $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
 
             $post = Post::find($id);
 
@@ -124,5 +112,50 @@ class PostController extends Controller
         Post::destroy($id);
 
         return redirect()->route('post.index')->with('success', 'Post deleted SuccessFully.');
+    }
+
+    public function postList(Request $request)
+    {
+        $data = Post::select(
+            'id',
+            'title',
+            'location',
+            'description',
+            'filename',
+            'likes',
+            'created_at',
+            'updated_at'
+        )
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return response()->json([
+            'data'      => $data,
+            'message'   => 'Posts List!',
+            'response'  => true
+        ], 200);
+    }
+
+    public function postDetails($id)
+    {
+        $data = Post::select(
+            'id',
+            'title',
+            'location',
+            'description',
+            'filename',
+            'likes',
+            'created_at',
+            'updated_at'
+        )
+            ->where('id', $id)
+            ->first();
+
+        return response()->json([
+            'data'      => $data,
+            'message'   => 'Posts In Details!',
+            'response'  => true
+        ], 200);
     }
 }
