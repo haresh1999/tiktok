@@ -1,4 +1,5 @@
 @extends($adminTheme)
+
 @section('title','Post')
 
 @section('content')

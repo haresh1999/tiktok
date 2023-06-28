@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
 	DashboardController,
 	LoginController,
-	PostController
+	PostController,
+	ProfileController
 };
 
 /*
@@ -24,13 +25,16 @@ Route::post('login', [LoginController::class, 'loginSubmit'])->name('login.submi
 Route::middleware('admin.auth')->group(function () {
 
 	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-	
+
 	Route::get('post', [PostController::class, 'index'])->name('post.index');
 	Route::get('post/create', [PostController::class, 'create'])->name('post.create');
 	Route::post('post/store', [PostController::class, 'store'])->name('post.store');
 	Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
 	Route::patch('post/update/{id}', [PostController::class, 'update'])->name('post.update');
 	Route::get('post/delete/{id}', [PostController::class, 'delete'])->name('post.delete');
+
+	Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+	Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
 
 	Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
