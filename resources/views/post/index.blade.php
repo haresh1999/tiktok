@@ -56,7 +56,7 @@
               <a href="{{ route('post.edit',$post->id)}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </td>
             <td>
-              <a href="{{ route('post.delete',$post->id) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+              <a onclick="return confirm('Are you sure, once you confirm record is permanently deleted!')" href="{{ route('post.delete',$post->id) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
             </td>
           </tr>
           @endforeach

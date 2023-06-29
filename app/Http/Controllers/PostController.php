@@ -116,6 +116,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::find($id);
+
+        Storage::disk('s3')->delete($post->filename);
+
         Post::destroy($id);
 
         return redirect()->route('post.index')->with('success', 'Post deleted SuccessFully.');
