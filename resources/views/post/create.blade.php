@@ -31,26 +31,41 @@
 						<input type="text" name="location" class="form-control" value="{{ old('location') }}">
 						@error('location') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
-				</div>
-				<div class="row">
+
+					<div class="form-group col-md-6">
+						<label>Type</label>
+						<select class="form-control" name="type">
+							<option {{ ! is_null(old('type')) && old('type')==0 ? 'selected' : '' }} value="image">Image
+							</option>
+							<option {{ ! is_null(old('type')) && old('type')==1 ? 'selected' : '' }} value="video"
+								selected>Video</option>
+						</select>
+						@error('type') <font color="red"> <small> {{$message}} </small></font> @enderror
+					</div>
+
 					<div class="form-group col-md-6">
 						<label>Image or Video</label>
 						<input type="file" name="file" class="form-control">
 						@error('file') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
+
 					<div class="form-group col-md-6">
 						<label>Status</label>
 						<select class="form-control" name="status">
-							<option {{ ! is_null(old('status')) && old('status') == 0 ? 'selected' : '' }} value="0">Inactive</option>
-							<option {{ ! is_null(old('status')) && old('status') == 1 ? 'selected' : '' }} value="1" selected>Active</option>
+							<option {{ ! is_null(old('status')) && old('status')==0 ? 'selected' : '' }} value="0">
+								Inactive</option>
+							<option {{ ! is_null(old('status')) && old('status')==1 ? 'selected' : '' }} value="1"
+								selected>Active</option>
 						</select>
 					</div>
+
+					<div class="form-group col-md-6">
+						<label>Description</label>
+						<textarea name="description" class="form-control" rows="3"></textarea>
+						@error('description') <font color="red"> <small> {{$message}} </small></font> @enderror
+					</div>
 				</div>
-				<div class="form-group">
-					<label>Description</label>
-					<textarea name="description" class="form-control" rows="4"></textarea>
-					@error('description') <font color="red"> <small> {{$message}} </small></font> @enderror
-				</div>
+
 				<div class="form-group">
 					<input type="submit" value="Submit" class="btn btn-primary btn-flat">
 				</div>

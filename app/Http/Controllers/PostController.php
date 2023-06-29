@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
+        $posts = Post::orderBy('id', 'desc')->paginate(10);
 
         return view('post.index', compact('posts'));
     }
@@ -43,7 +43,8 @@ class PostController extends Controller
             'location' => 'required',
             'description' => 'required',
             'file' => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'type' => 'required'
         ]);
 
         $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
@@ -80,7 +81,8 @@ class PostController extends Controller
             'location' => 'required',
             'description' => 'required',
             'file' => 'nullable',
-            'status' => 'required'
+            'status' => 'required',
+            'type' => 'required'
         ]);
 
         if ($request->hasFile('file')) {
@@ -125,7 +127,8 @@ class PostController extends Controller
             'filename',
             'likes',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'type'
         )
             ->where('status', 1)
             ->orderBy('id', 'desc')
@@ -148,7 +151,8 @@ class PostController extends Controller
             'filename',
             'likes',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'type'
         )
             ->where('id', $id)
             ->first();

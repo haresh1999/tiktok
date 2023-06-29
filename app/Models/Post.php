@@ -13,6 +13,7 @@ class Post extends Model
         'filename',
         'likes',
         'status',
+        'type'
     ];
 
     protected $casts = [

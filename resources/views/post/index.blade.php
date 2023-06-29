@@ -27,6 +27,7 @@
             <th>#</th>
             <th>Title</th>
             <th>Location</th>
+            <th>Type</th>
             <th>Image Or Video</th>
             <th>Likes</th>
             <th>Status</th>
@@ -40,6 +41,7 @@
             <td>{{ ++$key }}</td>
             <td>{{ $post->title }}</td>
             <td>{{ $post->location }}</td>
+            <td>{{ Str::ucfirst($post->type) }}</td>
             <td>
               <a target="_blank" href="{{ $post->filename }}">
                 <i class="fa fa-eye"></i>
