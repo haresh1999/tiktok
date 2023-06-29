@@ -2,6 +2,10 @@
 
 @section('title','Post Create')
 
+@section('style')
+<link rel="stylesheet" href="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+@endsection
+
 @section('content')
 <section class="content-header">
 	<!-- <h1>Post</h1> -->
@@ -34,7 +38,7 @@
 
 					<div class="form-group col-md-6">
 						<label>Type</label>
-						<select class="form-control" name="type">
+						<select class="form-control" name="type" id="type">
 							<option {{ ! is_null(old('type')) && old('type')==0 ? 'selected' : '' }} value="image">Image
 							</option>
 							<option {{ ! is_null(old('type')) && old('type')==1 ? 'selected' : '' }} value="video"
@@ -42,6 +46,7 @@
 						</select>
 						@error('type') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
+
 
 					<div class="form-group col-md-6">
 						<label>Image or Video</label>
@@ -64,6 +69,13 @@
 						<textarea name="description" class="form-control" rows="3"></textarea>
 						@error('description') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
+
+					<div class="editor form-group col-md-12" style="display: none">
+						<label>Html</label>
+						<textarea name="html" class="form-control" id="editor1" name="editor1" rows="5" cols="80"></textarea>
+						@error('html') <font color="red"> <small> {{$message}} </small></font> @enderror
+					</div>
+
 				</div>
 
 				<div class="form-group">
@@ -74,4 +86,22 @@
 	</div>
 </section>
 
+@endsection
+
+@section('script')
+<script src="{{ asset('bower_components/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+<script>
+	$(function () {
+    CKEDITOR.replace('editor1')
+    $('.textarea').wysihtml5()
+})
+$('#type').change(function(e){
+	if ($(this).val() == 'image') {
+		$('.editor').css('display','block')
+	}else{
+		$('.editor').css('display','none')
+	}
+})
+</script>
 @endsection

@@ -41,11 +41,14 @@ class PostController extends Controller
         $input = $request->validate([
             'title' => 'required|unique:posts',
             'location' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:500',
             'file' => 'required',
             'status' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'html' => 'nullable',
         ]);
+
+        $input['user_id'] = auth()->id();
 
         $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
 
@@ -79,10 +82,11 @@ class PostController extends Controller
         $input = $request->validate([
             'title' => 'required|unique:posts,title,' . $id,
             'location' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:500',
             'file' => 'nullable',
             'status' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'html' => 'nullable',
         ]);
 
         if ($request->hasFile('file')) {
@@ -119,17 +123,20 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
-        $data = Post::select(
-            'id',
-            'title',
-            'location',
-            'description',
-            'filename',
-            'likes',
-            'created_at',
-            'updated_at',
-            'type'
-        )
+        $data = Post::with('user')
+            ->select(
+                'id',
+                'user_id',
+                'title',
+                'location',
+                'description',
+                'type',
+                'html',
+                'filename',
+                'likes',
+                'created_at',
+                'updated_at',
+            )
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->paginate(10);
@@ -143,17 +150,20 @@ class PostController extends Controller
 
     public function postDetails($id)
     {
-        $data = Post::select(
-            'id',
-            'title',
-            'location',
-            'description',
-            'filename',
-            'likes',
-            'created_at',
-            'updated_at',
-            'type'
-        )
+        $data = Post::with('user')
+            ->select(
+                'id',
+                'user_id',
+                'title',
+                'location',
+                'description',
+                'filename',
+                'html',
+                'likes',
+                'created_at',
+                'updated_at',
+                'type'
+            )
             ->where('id', $id)
             ->first();
 

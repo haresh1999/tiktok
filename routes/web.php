@@ -31,7 +31,7 @@ Route::middleware('admin.auth')->group(function () {
 	Route::post('post/store', [PostController::class, 'store'])->name('post.store');
 	Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
 	Route::patch('post/update/{id}', [PostController::class, 'update'])->name('post.update');
-	Route::get('post/delete/{id}', [PostController::class, 'delete'])->name('post.delete');
+	Route::get('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
 
 	Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 	Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');

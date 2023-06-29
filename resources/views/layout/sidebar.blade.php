@@ -4,7 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="{{ getImageUrl(auth()->user()->profile_image)}}" class="img-circle" alt="User Image">
+        <img src="{{ auth()->user()->profile_image}}" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p>{{auth()->user()->name}}</p>
@@ -27,7 +27,7 @@
       {{-- <li>
         <a href="{{ route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
       </li> --}}
-      <li class="{{ Request::is('post') ? 'active' : '' }}">
+      <li class="{{ Request::is('post','post/create','post/edit/*') ? 'active' : '' }}">
         <a href="{{ route('post.index')}}"><i class="fa fa-clipboard"></i> <span>Post</span></a>
       </li>
     </ul>
