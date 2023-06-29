@@ -80,6 +80,7 @@ class PostController extends Controller
             'location' => 'required',
             'description' => 'required',
             'file' => 'nullable',
+            'status' => 'required'
         ]);
 
         if ($request->hasFile('file')) {
