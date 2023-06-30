@@ -195,13 +195,24 @@ class PostController extends Controller
             ], 422);
         }
 
-        Likes::create([
-            'post_id' => $request->post_id,
-            'ip' => $request->ip()
-        ]);
-
-        Post::where('id', $request->post_id)
-            ->increment('likes', 1);
+        if (Likes::where('post_id',$request->post_id)->where('ip',$request->ip())->exists()) {
+            
+            Likes::where('post_id',$request->post_id)
+                ->where('ip',$request->ip())
+                ->delete();
+    
+            Post::where('id', $request->post_id)
+                ->decrement('likes', 1);
+        }else{
+            
+            Likes::create([
+                'post_id' => $request->post_id,
+                'ip' => $request->ip()
+            ]);
+    
+            Post::where('id', $request->post_id)
+                ->increment('likes', 1);
+        }
 
         $res['likes'] = Post::where('id', $request->post_id)->value('likes');
 
