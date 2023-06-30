@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Likes;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -131,6 +132,7 @@ class PostController extends Controller
             ->select(
                 'id',
                 'user_id',
+                'id as like_status',
                 'title',
                 'location',
                 'description',
@@ -158,6 +160,7 @@ class PostController extends Controller
             ->select(
                 'id',
                 'user_id',
+                'id as like_status',
                 'title',
                 'location',
                 'description',
@@ -174,6 +177,37 @@ class PostController extends Controller
         return response()->json([
             'data'      => $data,
             'message'   => 'Posts In Details!',
+            'response'  => true
+        ], 200);
+    }
+
+    public function likes(Request $request)
+    {
+        $v = \Validator::make($request->all(), [
+            'post_id' => 'required|exists:posts,id',
+        ]);
+
+        if ($v->fails()) {
+
+            return response()->json([
+                'message'   => $v->errors(),
+                'response'  => false
+            ], 422);
+        }
+
+        Likes::create([
+            'post_id' => $request->post_id,
+            'ip' => $request->ip()
+        ]);
+
+        Post::where('id', $request->post_id)
+            ->increment('likes', 1);
+
+        $res['likes'] = Post::where('id', $request->post_id)->value('likes');
+
+        return response()->json([
+            'data'      => $res,
+            'message'   => 'Posts Likes!',
             'response'  => true
         ], 200);
     }
