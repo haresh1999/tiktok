@@ -25,11 +25,19 @@ class Post extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,'id','user_id')->select('id','name','profile_image');
+        return $this->hasOne(User::class, 'id', 'user_id')
+            ->select('id', 'name', 'profile_image');
     }
 
     public function getFileNameAttribute($val)
     {
         return getFile($val);
+    }
+
+    public function getLikeStatusAttribute($val)
+    {
+        return Likes::where('ip', request()->ip())
+            ->where('post_id', $val)
+            ->exists();
     }
 }
