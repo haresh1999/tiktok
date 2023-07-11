@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-	DashboardController,
+    CategoryController,
+    DashboardController,
 	LoginController,
 	PostController,
 	ProfileController
@@ -32,6 +33,14 @@ Route::middleware('admin.auth')->group(function () {
 	Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
 	Route::patch('post/update/{id}', [PostController::class, 'update'])->name('post.update');
 	Route::get('post/delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
+
+	Route::get('category', [CategoryController::class, 'index'])->name('category.index');
+	Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+	Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
+	Route::get('category/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+	Route::patch('category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+	Route::get('category/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+
 
 	Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 	Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
