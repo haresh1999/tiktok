@@ -30,6 +30,9 @@
       <li class="{{ Request::is('post','post/create','post/edit/*') ? 'active' : '' }}">
         <a href="{{ route('post.index')}}"><i class="fa fa-clipboard"></i> <span>Post</span></a>
       </li>
+      <li class="{{ Request::is('category','category/create','category/edit/*') ? 'active' : '' }}">
+        <a href="{{ route('category')}}"><i class="fa fa-sitemap"></i> <span>Category</span></a>
+      </li>
     </ul>
   </section>
 </aside>
