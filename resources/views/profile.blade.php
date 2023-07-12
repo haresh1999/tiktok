@@ -1,4 +1,4 @@
-@extends($adminTheme)
+@extends('layout.master')
 
 @section('title','Profile')
 

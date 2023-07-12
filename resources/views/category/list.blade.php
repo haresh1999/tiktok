@@ -1,4 +1,4 @@
-@extends($adminTheme)
+@extends('layout.master')
 
 @section('title','Category')
 
@@ -52,6 +52,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="text-right paginate">
+                {{ $categories->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
 </section>

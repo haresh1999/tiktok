@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-	CategoryController,
+    CasinoController,
+    CategoryController,
 	DashboardController,
 	LoginController,
 	PostController,
@@ -40,6 +41,13 @@ Route::middleware('admin.auth')->group(function () {
 	Route::get('category/edit/{category}', [CategoryController::class, 'edit'])->name('category.edit');
 	Route::patch('category/update/{category}', [CategoryController::class, 'update'])->name('category.update');
 	Route::get('category/delete/{category}', [CategoryController::class, 'destroy'])->name('category.delete');
+	
+	Route::get('casino', [CasinoController::class, 'index'])->name('casino');
+	Route::get('casino/create', [CasinoController::class, 'create'])->name('casino.create');
+	Route::post('casino/store', [CasinoController::class, 'store'])->name('casino.store');
+	Route::get('casino/edit/{casino}', [CasinoController::class, 'edit'])->name('casino.edit');
+	Route::patch('casino/update/{casino}', [CasinoController::class, 'update'])->name('casino.update');
+	Route::get('casino/delete/{casino}', [CasinoController::class, 'destroy'])->name('casino.delete');
 
 	Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 	Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');

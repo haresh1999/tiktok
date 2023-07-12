@@ -151,18 +151,11 @@ class PostController extends Controller
                 'user_id',
                 'id as like_status',
                 'title',
-                'location',
-                'description',
                 'type',
-                'html',
                 'filename',
                 'likes',
                 'created_at',
-                'updated_at',
             )
-            ->when(isset($request->news), function ($q) {
-                $q->where('type', 'image');
-            })
             ->when(isset($request->category), function ($q) use ($request) {
                 $q->where('category_id', $request->category);
             })
@@ -176,6 +169,40 @@ class PostController extends Controller
         return response()->json([
             'data'      => $data,
             'message'   => 'Posts List!',
+            'response'  => true
+        ], 200);
+    }
+
+    public function postPrediction(Request $request)
+    {
+        $data['post'] = Post::with('user')
+            ->select(
+                'id',
+                'user_id',
+                'title',
+                'filename',
+                'created_at',
+            )
+            ->when(isset($request->category), function ($q) use ($request) {
+                $q->where('category_id', $request->category);
+            })
+            ->when(isset($request->title), function ($q) use ($request) {
+                $q->where('title', 'like', "%{$request->title}%");
+            })
+            ->where('type', 'image')
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        $data['trending_categories'] = Category::select('id', 'name')
+            ->where('status', 1)
+            ->orderBy('likes', 'desc')
+            ->limit(6)
+            ->get();
+
+        return response()->json([
+            'data'      => $data,
+            'message'   => 'Posts Prediction List!',
             'response'  => true
         ], 200);
     }

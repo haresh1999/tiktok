@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('post', [PostController::class, 'postList']);
+Route::get('post-prediction', [PostController::class, 'postPrediction']);
 Route::get('post/{id}', [PostController::class, 'postDetails']);
 Route::post('likes', [PostController::class, 'likes']);
