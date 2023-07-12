@@ -32,10 +32,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        $category = Category::where('status',1)
-            ->pluck('name','id');
+        $category = Category::where('status', 1)
+            ->pluck('name', 'id');
 
-        return view('post.create',compact('category'));
+        return view('post.create', compact('category'));
     }
 
     /**
@@ -77,10 +77,10 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        $category = Category::where('status',1)
-            ->pluck('name','id');
+        $category = Category::where('status', 1)
+            ->pluck('name', 'id');
 
-        return view('post.edit', compact('post','category'));
+        return view('post.edit', compact('post', 'category'));
     }
 
     /**
@@ -145,7 +145,7 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
-        $data = Post::with('user')
+        $data['post'] = Post::with('user')
             ->select(
                 'id',
                 'user_id',
@@ -160,18 +160,25 @@ class PostController extends Controller
                 'created_at',
                 'updated_at',
             )
-            ->when(isset($request->news),function($q){
-                $q->where('type','image');
+            ->when(isset($request->news), function ($q) {
+                $q->where('type', 'image');
             })
-            ->when(isset($request->category),function($q) use ($request){
-                $q->where('category_id',$request->category);
+            ->when(isset($request->category), function ($q) use ($request) {
+                $q->where('category_id', $request->category);
             })
-            ->when(isset($request->title),function($q) use ($request){
-                $q->where('title','like',"%{$request->title}%");
+            ->when(isset($request->title), function ($q) use ($request) {
+                $q->where('title', 'like', "%{$request->title}%");
             })
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->paginate(10);
+
+        $data['trending_categories'] = Category::select('id', 'name')
+            ->where('id', '!=', $data['post']['category_id'])
+            ->where('status', 1)
+            ->orderBy('likes', 'desc')
+            ->limit(6)
+            ->get();
 
         return response()->json([
             'data'      => $data,
@@ -182,7 +189,7 @@ class PostController extends Controller
 
     public function postDetails($id)
     {
-        $data['post'] = Post::with(['user','category'])
+        $data['post'] = Post::with(['user', 'category'])
             ->select(
                 'id',
                 'user_id',
@@ -201,18 +208,18 @@ class PostController extends Controller
             ->where('id', $id)
             ->first();
 
-        $data['related_articles'] = Post::select('id','title')
-            ->where('category_id',$data['post']['category_id'])
-            ->where('id','!=',$data['post']['id'])
-            ->where('status',1)
+        $data['related_articles'] = Post::select('id', 'title')
+            ->where('category_id', $data['post']['category_id'])
+            ->where('id', '!=', $data['post']['id'])
+            ->where('status', 1)
             ->latest()
             ->limit(2)
             ->get();
 
-        $data['trending_categories'] = Category::select('id','name')
-            ->where('id','!=',$data['post']['category_id'])
-            ->where('status',1)
-            ->orderBy('likes','desc')
+        $data['trending_categories'] = Category::select('id', 'name')
+            ->where('id', '!=', $data['post']['category_id'])
+            ->where('status', 1)
+            ->orderBy('likes', 'desc')
             ->limit(6)
             ->get();
 
@@ -239,8 +246,8 @@ class PostController extends Controller
 
         if (Likes::where('post_id', $request->post_id)
             ->where('ip', $request->ip())
-            ->exists()) 
-        {
+            ->exists()
+        ) {
 
             Likes::where('post_id', $request->post_id)
                 ->where('ip', $request->ip())
@@ -250,9 +257,8 @@ class PostController extends Controller
 
             $post->decrement('likes', 1);
 
-            Category::where('id',$post->category_id)
+            Category::where('id', $post->category_id)
                 ->decrement('likes', 1);
-
         } else {
 
             Likes::create([
@@ -264,7 +270,7 @@ class PostController extends Controller
 
             $post->increment('likes', 1);
 
-            Category::where('id',$post->category_id)
+            Category::where('id', $post->category_id)
                 ->increment('likes', 1);
         }
 
