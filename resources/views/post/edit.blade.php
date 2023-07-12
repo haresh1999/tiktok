@@ -14,6 +14,16 @@
 				@method('PATCH')
 				<div class="row">
 					<div class="form-group col-md-6">
+						<label>Category</label>
+						<select class="form-control" name="category_id" id="category_id">
+							<option value="" selected disabled>Select Category</option>
+							@foreach ($category as $key => $cat)
+								<option {{ old('category_id',$post->category_id) == $key ? 'selected' : '' }} value="{{ $key }}">{{ $cat }}</option>
+							@endforeach
+						</select>
+						@error('category_id') <font color="red"> <small> {{$message}} </small></font> @enderror
+					</div>
+					<div class="form-group col-md-6">
 						<label>Title</label>
 						<input type="text" name="title" class="form-control" value="{{ $post->title }}">
 						@error('title') <font color="red"> <small> {{$message}} </small></font> @enderror

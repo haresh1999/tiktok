@@ -16,7 +16,8 @@ class Post extends Model
         'type',
         'html',
         'user_id',
-        'views'
+        'views',
+        'category_id'
     ];
 
     protected $casts = [
@@ -32,7 +33,8 @@ class Post extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class,'id','category_id');    
+        return $this->hasOne(Category::class,'id','category_id')
+        ->select('id', 'name');
     }
 
     public function getFileNameAttribute($val)
