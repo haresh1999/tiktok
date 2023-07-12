@@ -145,7 +145,7 @@ class PostController extends Controller
 
     public function postList(Request $request)
     {
-        $data['post'] = Post::with('user')
+        $data = Post::with('user')
             ->select(
                 'id',
                 'user_id',
@@ -172,13 +172,6 @@ class PostController extends Controller
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->paginate(10);
-
-        $data['trending_categories'] = Category::select('id', 'name')
-            ->where('id', '!=', $data['post']['category_id'])
-            ->where('status', 1)
-            ->orderBy('likes', 'desc')
-            ->limit(6)
-            ->get();
 
         return response()->json([
             'data'      => $data,
