@@ -15,7 +15,9 @@ class Post extends Model
         'status',
         'type',
         'html',
-        'user_id'
+        'user_id',
+        'category_id',
+        'views'
     ];
 
     protected $casts = [
@@ -27,6 +29,11 @@ class Post extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id')
             ->select('id', 'name', 'profile_image');
+    }
+
+    public function category()
+    {
+        return $this->hasOne(Category::class,'id','category_id');    
     }
 
     public function getFileNameAttribute($val)

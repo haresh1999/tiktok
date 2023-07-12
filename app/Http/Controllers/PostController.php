@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Likes;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -16,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(10);
+        $posts = Post::with('category')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('post.index', compact('posts'));
     }
@@ -28,7 +31,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        $category = Category::where('status',1)
+            ->pluck('name','id');
+
+        return view('post.create',compact('category'));
     }
 
     /**
@@ -47,15 +53,17 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
+            'category_id' => 'required'
         ]);
 
         $input['user_id'] = auth()->id();
-
         $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
 
         Post::create($input);
 
-        return redirect()->route('post')->with('success', 'Post Created SuccessFully.');
+        return redirect()
+            ->route('post')
+            ->with('success', 'Post Created SuccessFully.');
     }
 
     /**
@@ -66,9 +74,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $category = Category::where('status',1)
+        ->pluck('name','id');
+
         $post = Post::find($id);
 
-        return view('post.edit', compact('post'));
+        return view('post.edit', compact('post','category'));
     }
 
     /**
@@ -88,6 +99,7 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
+            'category_id' => 'required'
         ]);
 
         if ($request->hasFile('file')) {
@@ -97,6 +109,7 @@ class PostController extends Controller
             $post = Post::find($id);
 
             Storage::disk('s3')->delete($post->filename);
+
         } else {
 
             unset($input['filename']);
@@ -106,7 +119,9 @@ class PostController extends Controller
 
         Post::where('id', $id)->update($input);
 
-        return redirect()->route('post')->with('success', 'Post Updated SuccessFully.');
+        return redirect()
+            ->route('post')
+            ->with('success', 'Post Updated SuccessFully.');
     }
 
     /**
@@ -123,7 +138,9 @@ class PostController extends Controller
 
         Post::destroy($id);
 
-        return redirect()->route('post')->with('success', 'Post deleted SuccessFully.');
+        return redirect()
+            ->route('post')
+            ->with('success', 'Post deleted SuccessFully.');
     }
 
     public function postList(Request $request)

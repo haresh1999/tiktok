@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->tinyInteger('status');
-            $table->string('img');
-            $table->integer('likes')->default(0);
+        Schema::table('posts', function (Blueprint $table) {
+            $table->unsignedBigInteger('category_id');
             $table->integer('views')->default(0);
-            $table->timestamps();
         });
     }
 
@@ -31,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cateogries');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn(['category_id','views']);
+        });
     }
 };
