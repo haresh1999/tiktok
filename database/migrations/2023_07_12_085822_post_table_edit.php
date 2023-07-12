@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id');
             $table->integer('views')->default(0);
         });
     }
@@ -27,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn(['category_id','views']);
+            $table->dropColumn(['views']);
         });
     }
 };

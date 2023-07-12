@@ -8,7 +8,7 @@
   <div class="box box-primary">
     <div class="box-header with-border">
       @if (session('success'))
-        <div class="alert alert-danger">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
       @endif
       <h3 class="box-title">Post List</h3>
       <div class="pull-right">

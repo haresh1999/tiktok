@@ -16,7 +16,6 @@ class Post extends Model
         'type',
         'html',
         'user_id',
-        'category_id',
         'views'
     ];
 

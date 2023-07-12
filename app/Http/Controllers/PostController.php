@@ -7,6 +7,7 @@ use App\Models\Likes;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -31,10 +32,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $category = Category::where('status',1)
-            ->pluck('name','id');
-
-        return view('post.create',compact('category'));
+        return view('post.create');
     }
 
     /**
@@ -53,7 +51,6 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
-            'category_id' => 'required'
         ]);
 
         $input['user_id'] = auth()->id();
@@ -74,12 +71,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::where('status',1)
-        ->pluck('name','id');
-
         $post = Post::find($id);
 
-        return view('post.edit', compact('post','category'));
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -99,7 +93,6 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
-            'category_id' => 'required'
         ]);
 
         if ($request->hasFile('file')) {
@@ -109,7 +102,6 @@ class PostController extends Controller
             $post = Post::find($id);
 
             Storage::disk('s3')->delete($post->filename);
-
         } else {
 
             unset($input['filename']);
@@ -121,7 +113,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('post')
-            ->with('success', 'Post Updated SuccessFully.');
+            ->with('success', 'Post Updated successfully.');
     }
 
     /**
@@ -140,7 +132,7 @@ class PostController extends Controller
 
         return redirect()
             ->route('post')
-            ->with('success', 'Post deleted SuccessFully.');
+            ->with('success', 'Post deleted successfully.');
     }
 
     public function postList(Request $request)
@@ -200,7 +192,7 @@ class PostController extends Controller
 
     public function likes(Request $request)
     {
-        $v = \Validator::make($request->all(), [
+        $v = Validator::make($request->all(), [
             'post_id' => 'required|exists:posts,id',
         ]);
 
@@ -212,30 +204,24 @@ class PostController extends Controller
             ], 422);
         }
 
-        if (Likes::where('post_id',$request->post_id)->where('ip',$request->ip())->exists()) {
-            
-            Likes::where('post_id',$request->post_id)
-                ->where('ip',$request->ip())
+        if (Likes::where('post_id', $request->post_id)->where('ip', $request->ip())->exists()) {
+
+            Likes::where('post_id', $request->post_id)
+                ->where('ip', $request->ip())
                 ->delete();
-    
-            $post = Post::where('id', $request->post_id)->first();
 
-            $post->decrement('likes', 1);
+            Post::where('id', $request->post_id)
+            ->decrement('likes', 1);
 
-            Category::where('id',$post->category_id)->decrement('likes', 1);
+        } else {
 
-        }else{
-            
             Likes::create([
                 'post_id' => $request->post_id,
                 'ip' => $request->ip()
             ]);
-    
-            $post = Post::where('id', $request->post_id)->first();
 
-            $post->increment('likes', 1);
-
-            Category::where('id',$post->category_id)->increment('likes', 1);
+            Post::where('id', $request->post_id)
+            ->increment('likes', 1);
         }
 
         $res['likes'] = Post::where('id', $request->post_id)->value('likes');
