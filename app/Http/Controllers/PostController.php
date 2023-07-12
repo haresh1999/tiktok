@@ -218,8 +218,12 @@ class PostController extends Controller
                 ->where('ip',$request->ip())
                 ->delete();
     
-            Post::where('id', $request->post_id)
-                ->decrement('likes', 1);
+            $post = Post::where('id', $request->post_id)->first();
+
+            $post->decrement('likes', 1);
+
+            Category::where('id',$post->category_id)->decrement('likes', 1);
+
         }else{
             
             Likes::create([
@@ -227,8 +231,11 @@ class PostController extends Controller
                 'ip' => $request->ip()
             ]);
     
-            Post::where('id', $request->post_id)
-                ->increment('likes', 1);
+            $post = Post::where('id', $request->post_id)->first();
+
+            $post->increment('likes', 1);
+
+            Category::where('id',$post->category_id)->increment('likes', 1);
         }
 
         $res['likes'] = Post::where('id', $request->post_id)->value('likes');
