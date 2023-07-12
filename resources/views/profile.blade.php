@@ -17,9 +17,9 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             @if (session('profile.success'))
-                <div class="alert alert-success">
-                    {{ session('profile.success') }}
-                </div>
+            <div class="alert alert-success">
+                {{ session('profile.success') }}
+            </div>
             @endif
             <div class="nav-tabs-custom">
                 <div class="tab-content">
@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label for="profile_image" class="col-sm-2 control-label">Profile Image</label>
                                 <div class="col-sm-10">
-                                    <img width="250px" height="250px" src="{{ getImageUrl($user->profile_image) }}"
+                                    <img width="250px" height="250px" src="{{ $user->profile_image }}"
                                         alt="profile image">
                                 </div>
                             </div>

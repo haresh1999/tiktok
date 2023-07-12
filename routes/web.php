@@ -27,7 +27,7 @@ Route::middleware('admin.auth')->group(function () {
 
 	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-	Route::get('post', [PostController::class, 'index'])->name('post.index');
+	Route::get('post', [PostController::class, 'index'])->name('post');
 	Route::get('post/create', [PostController::class, 'create'])->name('post.create');
 	Route::post('post/store', [PostController::class, 'store'])->name('post.store');
 	Route::get('post/edit/{id}', [PostController::class, 'edit'])->name('post.edit');

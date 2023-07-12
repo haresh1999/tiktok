@@ -55,7 +55,7 @@ class PostController extends Controller
 
         Post::create($input);
 
-        return redirect()->route('post.index')->with('success', 'Post Created SuccessFully.');
+        return redirect()->route('post')->with('success', 'Post Created SuccessFully.');
     }
 
     /**
@@ -106,7 +106,7 @@ class PostController extends Controller
 
         Post::where('id', $id)->update($input);
 
-        return redirect()->route('post.index')->with('success', 'Post Updated SuccessFully.');
+        return redirect()->route('post')->with('success', 'Post Updated SuccessFully.');
     }
 
     /**
@@ -123,7 +123,7 @@ class PostController extends Controller
 
         Post::destroy($id);
 
-        return redirect()->route('post.index')->with('success', 'Post deleted SuccessFully.');
+        return redirect()->route('post')->with('success', 'Post deleted SuccessFully.');
     }
 
     public function postList(Request $request)

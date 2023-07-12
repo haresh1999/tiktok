@@ -1,10 +1,11 @@
+@php $name = Route::currentRouteName() @endphp
 <aside class="main-sidebar">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="{{ auth()->user()->profile_image}}" class="img-circle" alt="User Image">
+        <img src="{{ auth()->user()->profile_image }}" alt="User Image" style="border-radius: 50%;height:43px">
       </div>
       <div class="pull-left info">
         <p>{{auth()->user()->name}}</p>
@@ -24,14 +25,14 @@
 
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">MAIN NAVIGATION</li>
-      {{-- <li>
+      <li class="{{ $name == 'dashboard' ? 'active' : '' }}">
         <a href="{{ route('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
-      </li> --}}
-      <li class="{{ Request::is('post','post/create','post/edit/*') ? 'active' : '' }}">
-        <a href="{{ route('post.index')}}"><i class="fa fa-clipboard"></i> <span>Post</span></a>
       </li>
-      <li class="{{ Request::is('category','category/create','category/edit/*') ? 'active' : '' }}">
+      <li class="{{ in_array($name,['category','category.create','category.edit']) ? 'active' : '' }}">
         <a href="{{ route('category')}}"><i class="fa fa-sitemap"></i> <span>Category</span></a>
+      </li>
+      <li class="{{ in_array($name,['post','post.create','post.edit']) ? 'active' : '' }}">
+        <a href="{{ route('post')}}"><i class="fa fa-clipboard"></i> <span>Post</span></a>
       </li>
     </ul>
   </section>

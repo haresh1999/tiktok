@@ -8,8 +8,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return redirect()->route('post.index');
-        
         return view('dashboard');
     }
 }
