@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -27,9 +28,13 @@ class ProfileController extends Controller
 
         if (isset($v['profile_image'])) {
 
-            deleteImage(auth()->user()->profile_image);
+            $user->profile_image = Storage::disk('public')->put('user_profile_image', $v['profile_image']);
+            
+            if (Storage::disk('public')->exists(auth()->user()->profile_image)) {
+                
+                Storage::disk('public')->delete(auth()->user()->profile_image);
+            }
 
-            $user->profile_image = uploadImage($v['profile_image'], 'user_profile_image');
         } else {
 
             unset($v['profile_image']);
