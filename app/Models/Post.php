@@ -37,11 +37,6 @@ class Post extends Model
         ->select('id', 'name');
     }
 
-    public function getFileNameAttribute($val)
-    {
-        return getFile($val);
-    }
-
     public function getLikeStatusAttribute($val)
     {
         return Likes::where('ip', request()->ip())

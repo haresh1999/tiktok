@@ -12,47 +12,41 @@ function getFile($path){
 
 function uploadImage($image, $upath = '')
 {
+    return Storage::disk('s3')->put($upath, $image);
 
-    if ($image != null || isset($image)) {
+    // $path = ($upath == '') ? 'images/' : $upath;
 
-        $path = ($upath == '') ? 'images/' : $upath;
+    // $storepath = Storage::disk('public')->path($path);
 
-        $storepath = Storage::disk('public')->path($path);
+    // if (!is_dir($storepath)) {
 
-        if (!is_dir($storepath)) {
+    //     \File::makeDirectory($storepath, 0777, true);
+    // }
 
-            \File::makeDirectory($storepath, 0777, true);
-        }
+    // $imageName = time() . '-' . Str::random(5) . '.' . $image->extension();
 
-        $imageName = time() . '-' . Str::random(5) . '.' . $image->extension();
+    // $image->storeAs('public/' . $path, $imageName);
 
-        $image->storeAs('public/' . $path, $imageName);
-
-        return $path . '/' . $imageName;
-    }
-
-    return null;
+    // return $path . '/' . $imageName;
 }
 
 function getImageUrl($image)
 {
-
     if ($image != null) {
 
-        return Storage::disk('public')->url($image);
+        return Storage::disk('s3')->url($image);
     }
-
-    return null;
+    
+    return asset('user.png');
 }
 
 function deleteImage($imageUrl)
 {
-
     if ($imageUrl != null) {
 
-        if (Storage::disk('public')->exists($imageUrl)) {
+        if (Storage::disk('s3')->exists($imageUrl)) {
 
-            Storage::disk('public')->delete($imageUrl);
+            Storage::disk('s3')->delete($imageUrl);
 
             return true;
         }

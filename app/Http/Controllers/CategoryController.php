@@ -83,7 +83,7 @@ class CategoryController extends Controller
 
             $input['img'] = uploadImage($input['img'], 'category');
 
-            deleteImage($category);
+            deleteImage($category->img);
         }
 
         Category::where('id', $category->id)->update($input);
@@ -102,6 +102,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         Post::where('category_id', $category->id)->delete();
+
+        deleteImage($category->img);
 
         $category->delete();
 

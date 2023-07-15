@@ -58,7 +58,7 @@ class PostController extends Controller
         ]);
 
         $input['user_id'] = auth()->id();
-        $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
+        $input['filename'] = uploadImage($request->file,'posts');
 
         Post::create($input);
 
@@ -105,14 +105,11 @@ class PostController extends Controller
 
         if ($request->hasFile('file')) {
 
-            $input['filename'] = Storage::disk('s3')->put('posts', $request->file);
+            $input['filename'] = uploadImage($request->file,'posts');
 
             $post = Post::find($id);
 
-            Storage::disk('s3')->delete($post->filename);
-        } else {
-
-            unset($input['filename']);
+            deleteImage($post->filename);
         }
 
         unset($input['file']);
@@ -134,7 +131,7 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        Storage::disk('s3')->delete($post->filename);
+        deleteImage($post->filename);
 
         Post::destroy($id);
 
@@ -150,6 +147,7 @@ class PostController extends Controller
                 'id',
                 'user_id',
                 'id as like_status',
+                'description',
                 'title',
                 'type',
                 'filename',
