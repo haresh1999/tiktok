@@ -58,7 +58,7 @@ class PostController extends Controller
         ]);
 
         $input['user_id'] = auth()->id();
-        $input['filename'] = uploadImage($request->file,'posts');
+        $input['filename'] = uploadImage($request->file, 'posts');
 
         Post::create($input);
 
@@ -105,7 +105,7 @@ class PostController extends Controller
 
         if ($request->hasFile('file')) {
 
-            $input['filename'] = uploadImage($request->file,'posts');
+            $input['filename'] = uploadImage($request->file, 'posts');
 
             $post = Post::find($id);
 

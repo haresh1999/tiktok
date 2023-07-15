@@ -14,7 +14,8 @@ class CasinoController extends Controller
      */
     public function index()
     {
-        $casinos = Casino::paginate(10);
+        $casinos = Casino::orderBy('id', 'desc')
+            ->paginate(10);
 
         return view('casino.list', compact('casinos'));
     }
@@ -39,13 +40,14 @@ class CasinoController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|max:250',
-            'title' => 'required|unique:casions',
+            'title' => 'required|unique:casinos',
             'description' => 'required',
             'rating' => 'required',
             'url' => 'required|url',
             'img' => 'required|image',
             'status' => 'required|in:0,1'
         ]);
+
 
         $input['img'] = uploadImage($input['img'], 'casino');
 
@@ -65,7 +67,7 @@ class CasinoController extends Controller
      */
     public function edit(Casino $casino)
     {
-        return view('casino.edit');
+        return view('casino.edit', compact('casino'));
     }
 
     /**
@@ -79,11 +81,11 @@ class CasinoController extends Controller
     {
         $input = $request->validate([
             'name' => 'required|max:250',
-            'title' => 'required|unique:casions',
+            'title' => 'required|unique:casinos,title,' . $casino->id,
             'description' => 'required',
             'rating' => 'required',
             'url' => 'required|url',
-            'img' => 'required|image',
+            'img' => 'nullable|image',
             'status' => 'required|in:0,1'
         ]);
 
@@ -94,8 +96,7 @@ class CasinoController extends Controller
             deleteImage($casino->img);
         }
 
-        Casino::where('id', $casino->id)
-            ->update($input);
+        $casino->update($input);
 
         return redirect()
             ->route('casino')
@@ -115,5 +116,51 @@ class CasinoController extends Controller
         return redirect()
             ->route('casino')
             ->with('casino.error', 'Casino deleted successfully!');
+    }
+
+    // API
+
+    public function casinoList(Request $request)
+    {
+        $casinos = Casino::select(
+            'id',
+            'title',
+            'name',
+            'description',
+            'rating',
+            'url',
+            'img'
+        )
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return response()->json([
+            'data'      => $casinos,
+            'message'   => 'Casino List!',
+            'response'  => true
+        ], 200);
+    }
+
+    public function casinoDetails($id)
+    {
+        $casinos = Casino::select(
+            'id',
+            'title',
+            'name',
+            'description',
+            'rating',
+            'url',
+            'img'
+        )
+            ->where('id', $id)
+            ->where('status', 1)
+            ->first(10);
+
+        return response()->json([
+            'data'      => $casinos,
+            'message'   => 'Casino List!',
+            'response'  => true
+        ], 200);
     }
 }

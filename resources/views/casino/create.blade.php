@@ -1,31 +1,49 @@
 @extends('layout.master')
 
-@section('title','Category Create')
+@section('title','Casino Create')
 
 @section('content')
+
 <section class="content">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Category Create</h3>
+            <h3 class="box-title">Casino Create</h3>
         </div>
         <div class="box-body">
-            <form action="{{ route('category.store')}}" method="Post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{{ route('casino.store')}}" method="Post" autocomplete="off" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         <label>Name</label>
                         <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                         @error('name') <font color="red"> <small> {{$message}} </small></font> @enderror
                     </div>
-
-                    <div class="form-group col-md-4">
-                        <label>Image</label>
-                        <input type="file" name="img" class="form-control">
-                        @error('file') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    <div class="form-group col-md-6">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+                        @error('title') <font color="red"> <small> {{$message}} </small></font> @enderror
                     </div>
 
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
+                        <label>Rating</label>
+                        <input type="number" step="0.1" max="10" name="rating" class="form-control"
+                            value="{{ old('rating') }}">
+                        @error('rating') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Image</label>
+                        <input type="file" name="img" class="form-control">
+                        @error('img') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>URL</label>
+                        <input type="text" name="url" class="form-control" value="{{ old('url') }}">
+                        @error('url') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    </div>
+
+                    <div class="form-group col-md-6">
                         <label>Status</label>
                         <select class="form-control" name="status">
                             <option {{ ! is_null(old('status')) && old('status')==0 ? 'selected' : '' }} value="0">
@@ -34,6 +52,13 @@
                                 selected>Active</option>
                         </select>
                     </div>
+
+                    <div class="form-group col-md-12">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                        @error('description') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    </div>
+
                 </div>
 
                 <div class="form-group">
