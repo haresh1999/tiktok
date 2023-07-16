@@ -122,7 +122,7 @@ class CasinoController extends Controller
 
     public function casinoList(Request $request)
     {
-        $casinos = Casino::select(
+        $casinos['top_rated_list'] = Casino::select(
             'id',
             'title',
             'name',
@@ -131,9 +131,24 @@ class CasinoController extends Controller
             'url',
             'img'
         )
+            ->orderBy('rating', 'desc')
             ->where('status', 1)
             ->orderBy('id', 'desc')
-            ->paginate(10);
+            ->get();
+
+        $casinos['trending_of_month'] = Casino::select(
+            'id',
+            'title',
+            'name',
+            'description',
+            'rating',
+            'url',
+            'img'
+        )
+            ->whereMonth('created_at',date('m'))
+            ->where('status', 1)
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json([
             'data'      => $casinos,
