@@ -29,6 +29,7 @@
                         <th>URL</th>
                         <th>Image</th>
                         <th>Status</th>
+                        <th>Top Rated</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -48,6 +49,9 @@
                         </td>
                         <td>{!! $casino->status == 1 ? '<span class="label label-success">Active</span>' : '<span
                                 class="label label-danger">InActive</span>' !!}</td>
+                        <td>
+                            {{ $casino->top_rated ? 'Yes' : 'No' }}
+                        </td>
                         <td><a href="{{ route('casino.edit',$casino->id)}}"><i class="fa fa-pencil-square-o"
                                     aria-hidden="true"></i></a></td>
                         <td>

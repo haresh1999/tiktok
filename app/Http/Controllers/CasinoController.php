@@ -45,9 +45,11 @@ class CasinoController extends Controller
             'rating' => 'required',
             'url' => 'required|url',
             'img' => 'required|image',
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:0,1',
+            'top_rated' => 'nullable',
         ]);
 
+        $input['top_rated'] = isset($input['top_rated']) ? 1 : 0;
 
         $input['img'] = uploadImage($input['img'], 'casino');
 
@@ -86,8 +88,12 @@ class CasinoController extends Controller
             'rating' => 'required',
             'url' => 'required|url',
             'img' => 'nullable|image',
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:0,1',
+            'top_rated' => 'nullable',
         ]);
+
+
+        $input['top_rated'] = isset($input['top_rated']) ? 1 : 0;
 
         if (isset($input['img'])) {
 
@@ -131,7 +137,7 @@ class CasinoController extends Controller
             'url',
             'img'
         )
-            ->orderBy('rating', 'desc')
+            ->where('top_rated', 1)
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->get();
@@ -145,7 +151,8 @@ class CasinoController extends Controller
             'url',
             'img'
         )
-            ->whereMonth('created_at',date('m'))
+            ->whereMonth('created_at', date('m'))
+            ->where('top_rated', 0)
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->get();

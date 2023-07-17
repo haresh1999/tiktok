@@ -49,6 +49,14 @@
                     </div>
 
                     <div class="form-group col-md-6">
+                        <label>Toprated</label>
+                        <div class="checkbox">
+                            <label><input name="top_rated" type="checkbox" value="1" {{ $casino->top_rated ? 'checked' :
+                                '' }}>Is Toprated</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
                         <label>Status</label>
                         <select class="form-control" name="status">
                             <option {{ old('status',$casino->status)==0 ? 'selected' : '' }} value="0">
@@ -58,7 +66,7 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label>Description</label>
                         <textarea name="description" class="form-control"
                             rows="3">{{ old('description',$casino->description) }}</textarea>
