@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Casino;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CasinoController extends Controller
@@ -39,7 +40,7 @@ class CasinoController extends Controller
     public function store(Request $request)
     {
         $input = $request->validate([
-            'name' => 'required|max:250',
+            'banner_title' => 'required|max:250',
             'title' => 'required|unique:casinos',
             'description' => 'required',
             'rating' => 'required',
@@ -47,7 +48,6 @@ class CasinoController extends Controller
             'img' => 'required|image',
             'status' => 'required|in:0,1'
         ]);
-
 
         $input['img'] = uploadImage($input['img'], 'casino');
 
@@ -80,7 +80,7 @@ class CasinoController extends Controller
     public function update(Request $request, Casino $casino)
     {
         $input = $request->validate([
-            'name' => 'required|max:250',
+            'banner_title' => 'required|max:250',
             'title' => 'required|unique:casinos,title,' . $casino->id,
             'description' => 'required',
             'rating' => 'required',
@@ -125,7 +125,7 @@ class CasinoController extends Controller
         $casinos = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',
@@ -147,7 +147,7 @@ class CasinoController extends Controller
         $casinos = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',
@@ -160,6 +160,26 @@ class CasinoController extends Controller
         return response()->json([
             'data'      => $casinos,
             'message'   => 'Casino List!',
+            'response'  => true
+        ], 200);
+    }
+
+    public function categoryList()
+    {
+        $cateogry = Category::select(
+            'id',
+            'name',
+            'img',
+            'likes',
+            'views',
+            'created_at',
+        )
+            ->where('status', 1)
+            ->get();
+
+        return response()->json([
+            'data'      => $cateogry,
+            'message'   => 'Category List!',
             'response'  => true
         ], 200);
     }

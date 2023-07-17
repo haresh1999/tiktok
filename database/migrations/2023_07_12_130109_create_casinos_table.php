@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('casinos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('banner_title');
             $table->string('title');
             $table->text('description');
             $table->decimal('rating',2,1);

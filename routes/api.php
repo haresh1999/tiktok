@@ -28,3 +28,4 @@ Route::get('post/{id}', [PostController::class, 'postDetails']);
 Route::post('likes', [PostController::class, 'likes']);
 Route::get('casino', [CasinoController::class, 'casinoList']);
 Route::get('casino/{id}', [CasinoController::class, 'casinoDetails']);
+Route::get('category', [CasinoController::class, 'categoryList']);
