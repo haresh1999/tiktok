@@ -14,9 +14,9 @@
                 @csrf
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label>Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-                        @error('name') <font color="red"> <small> {{$message}} </small></font> @enderror
+                        <label>Banner Title</label>
+                        <input type="text" name="banner_title" class="form-control" value="{{ old('banner_title') }}">
+                        @error('banner_title') <font color="red"> <small> {{$message}} </small></font> @enderror
                     </div>
                     <div class="form-group col-md-6">
                         <label>Title</label>

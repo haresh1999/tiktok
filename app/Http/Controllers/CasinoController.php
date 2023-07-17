@@ -39,7 +39,7 @@ class CasinoController extends Controller
     public function store(Request $request)
     {
         $input = $request->validate([
-            'name' => 'required|max:250',
+            'banner_title' => 'required|max:250',
             'title' => 'required|unique:casinos',
             'description' => 'required',
             'rating' => 'required',
@@ -82,7 +82,7 @@ class CasinoController extends Controller
     public function update(Request $request, Casino $casino)
     {
         $input = $request->validate([
-            'name' => 'required|max:250',
+            'banner_title' => 'required|max:250',
             'title' => 'required|unique:casinos,title,' . $casino->id,
             'description' => 'required',
             'rating' => 'required',
@@ -123,15 +123,13 @@ class CasinoController extends Controller
             ->route('casino')
             ->with('casino.error', 'Casino deleted successfully!');
     }
-
     // API
-
     public function casinoList(Request $request)
     {
         $casinos['top_rated_list'] = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',
@@ -145,7 +143,7 @@ class CasinoController extends Controller
         $casinos['trending_of_month'] = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',
@@ -169,7 +167,7 @@ class CasinoController extends Controller
         $casinos = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',

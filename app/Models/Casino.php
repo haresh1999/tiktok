@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Casino extends Model
 {
     protected $fillable = [
-        'name',
+        'banner_title',
         'title',
         'description',
         'rating',

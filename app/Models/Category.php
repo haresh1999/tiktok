@@ -13,4 +13,8 @@ class Category extends Model
         'views',
         'img'
     ];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d'
+    ];
 }

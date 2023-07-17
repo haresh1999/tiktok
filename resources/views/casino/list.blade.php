@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>Banner Title</th>
                         <th>Title</th>
                         <th>Rating</th>
                         <th>URL</th>
@@ -38,7 +38,7 @@
                     @foreach($casinos as $key => $casino)
                     <tr>
                         <td>{{ ++$key }}</td>
-                        <td>{{ $casino->name }}</td>
+                        <td>{{ $casino->banner_title }}</td>
                         <td>{{ $casino->title }}</td>
                         <td>{{ $casino->rating }}</td>
                         <td>
