@@ -16,15 +16,15 @@
                 @method('PATCH')
                 <div class="row">
                     <div class="form-group col-md-6">
+                        <label>Title</label>
+                        <input type="text" name="title" class="form-control" value="{{ old('title',$casino->title) }}">
+                        @error('title') <font color="red"> <small> {{$message}} </small></font> @enderror
+                    </div>
+                    <div class="form-group col-md-6">
                         <label>Banner Title</label>
                         <input type="text" name="banner_title" class="form-control"
                             value="{{ old('banner_title',$casino->banner_title) }}">
                         @error('banner_title') <font color="red"> <small> {{$message}} </small></font> @enderror
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Title</label>
-                        <input type="text" name="title" class="form-control" value="{{ old('title',$casino->title) }}">
-                        @error('title') <font color="red"> <small> {{$message}} </small></font> @enderror
                     </div>
 
                     <div class="form-group col-md-6">
