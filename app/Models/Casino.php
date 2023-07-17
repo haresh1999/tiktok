@@ -13,6 +13,8 @@ class Casino extends Model
         'rating',
         'url',
         'img',
-        'status'
+        'status',
+        'likes',
+        'views'
     ];
 }

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('rating',2,1);
             $table->string('url');
             $table->string('img');
+            $table->integer('likes')->default(0);
+            $table->integer('views')->default(0);
             $table->tinyInteger('status');
             $table->timestamps();
         });

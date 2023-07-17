@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Casino;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CasinoController extends Controller
@@ -117,9 +116,7 @@ class CasinoController extends Controller
             ->route('casino')
             ->with('casino.error', 'Casino deleted successfully!');
     }
-
     // API
-
     public function casinoList(Request $request)
     {
         $casinos['top_rated_list'] = Casino::select(
@@ -139,13 +136,13 @@ class CasinoController extends Controller
         $casinos['trending_of_month'] = Casino::select(
             'id',
             'title',
-            'name',
+            'banner_title',
             'description',
             'rating',
             'url',
             'img'
         )
-            ->whereMonth('created_at',date('m'))
+            ->whereMonth('created_at', date('m'))
             ->where('status', 1)
             ->orderBy('id', 'desc')
             ->get();
@@ -175,26 +172,6 @@ class CasinoController extends Controller
         return response()->json([
             'data'      => $casinos,
             'message'   => 'Casino List!',
-            'response'  => true
-        ], 200);
-    }
-
-    public function categoryList()
-    {
-        $cateogry = Category::select(
-            'id',
-            'name',
-            'img',
-            'likes',
-            'views',
-            'created_at',
-        )
-            ->where('status', 1)
-            ->get();
-
-        return response()->json([
-            'data'      => $cateogry,
-            'message'   => 'Category List!',
             'response'  => true
         ], 200);
     }

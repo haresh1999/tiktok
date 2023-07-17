@@ -111,4 +111,24 @@ class CategoryController extends Controller
             ->route('category')
             ->with('category.warning', 'Category deleted successfully!');
     }
+
+    public function categoryList()
+    {
+        $cateogry = Category::select(
+            'id',
+            'name',
+            'img',
+            'likes',
+            'views',
+            'created_at',
+        )
+            ->where('status', 1)
+            ->get();
+
+        return response()->json([
+            'data'      => $cateogry,
+            'message'   => 'Category List!',
+            'response'  => true
+        ], 200);
+    }
 }

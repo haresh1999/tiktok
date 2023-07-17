@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     CasinoController,
+    CategoryController,
     PostController
 };
 
@@ -28,4 +29,4 @@ Route::get('post/{id}', [PostController::class, 'postDetails']);
 Route::post('likes', [PostController::class, 'likes']);
 Route::get('casino', [CasinoController::class, 'casinoList']);
 Route::get('casino/{id}', [CasinoController::class, 'casinoDetails']);
-Route::get('category', [CasinoController::class, 'categoryList']);
+Route::get('category', [CategoryController::class, 'categoryList']);
