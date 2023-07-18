@@ -133,13 +133,13 @@ class UserController extends Controller
 
         $key = !filter_var($username, FILTER_VALIDATE_EMAIL) === false ? 'email' : 'username';
 
-        $password = Str::random(9);
+        $token = Str::random(100);
 
         $user = User::where($key, $input['username'])->first();
 
-        $user->update(['password' => bcrypt($password)]);
+        $user->update(['remember_token' => $token]);
 
-        Mail::to($user->email)->send(new ForgetPasswordMail($password));
+        Mail::to($user->email)->send(new ForgetPasswordMail($token));
 
         return response()
             ->json([
@@ -147,5 +147,10 @@ class UserController extends Controller
                 'data' => [],
                 'response' => true
             ], 200);
+    }
+
+    public function passwordUpdate()
+    {
+        
     }
 }
