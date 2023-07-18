@@ -45,10 +45,21 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime:Y-m-d',
+        'updated_at' => 'datetime:Y-m-d',
     ];
 
     public function getProfileImageAttribute($val)
     {
-        return Storage::disk('public')->url($val);
+        if ($val) {
+            return Storage::disk('public')->url($val);
+        }
+
+        return null;
+    }
+
+    public function getStatusAttribute($status)
+    {
+        return $status ? 'Active' : 'Inactive';
     }
 }

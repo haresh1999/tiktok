@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\{
+    ForgetPasswordRequest,
+    LoginRequest,
+    ProfileRequest,
+    RegisterRequest,
+};
+
+use App\Mail\ForgetPasswordMail;
 use App\Models\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -115,5 +123,34 @@ class UserController extends Controller
                 'data' => [],
                 'response' => true
             ], 200);
+    }
+
+    public function forgetPassword(ForgetPasswordRequest $request)
+    {
+        $input = $request->validated();
+
+        $username = filter_var($input['username'], FILTER_SANITIZE_EMAIL);
+
+        $key = !filter_var($username, FILTER_VALIDATE_EMAIL) === false ? 'email' : 'username';
+
+        $token = Str::random(100);
+
+        $user = User::where($key, $input['username'])->first();
+
+        $user->update(['remember_token' => $token]);
+
+        Mail::to($user->email)->send(new ForgetPasswordMail($token));
+
+        return response()
+            ->json([
+                'message' => 'Password successfully send on email address!',
+                'data' => [],
+                'response' => true
+            ], 200);
+    }
+
+    public function passwordUpdate()
+    {
+        
     }
 }
