@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\{
     ForgetPasswordRequest,
+    ForgetPasswordUpdateRequest,
     LoginRequest,
     ProfileRequest,
     RegisterRequest,
@@ -149,8 +150,31 @@ class UserController extends Controller
             ], 200);
     }
 
-    public function passwordUpdate()
+    public function passwordUpdate(ForgetPasswordUpdateRequest $request)
     {
-        
+        $input = $request->validated();
+
+        $user = User::where('remember_token', $input['token'])
+            ->where('email', $input['email'])
+            ->where('updated_at', '>=', now()->addMinutes(-5))
+            ->first();
+
+        if ($user) {
+
+            $user->update(['password' => bcrypt($input['password']), 'remember_token' => null]);
+
+            return response()
+                ->json([
+                    'message' => 'Password successfully updated!',
+                    'data' => [],
+                    'response' => true
+                ], 200);
+        }
+
+        return response()
+            ->json([
+                'message' => 'Token not match with the given email address or token expire',
+                'response' => false
+            ], 422);
     }
 }
