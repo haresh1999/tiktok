@@ -16,9 +16,11 @@ class AdminSeeder extends Seeder
     {
         \App\Models\User::create([
             'name' => 'Admin',
+            'username' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456'),
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
+            'mobile' => '9000000000'
         ]);
     }
 }

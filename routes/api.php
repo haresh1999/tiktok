@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     CasinoController,
     CategoryController,
-    PostController
+    PostController,
+    UserController
 };
 
 /*
@@ -19,10 +20,6 @@ use App\Http\Controllers\{
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('post', [PostController::class, 'postList']);
 Route::get('post-prediction', [PostController::class, 'postPrediction']);
 Route::get('post/{id}', [PostController::class, 'postDetails']);
@@ -30,3 +27,13 @@ Route::post('likes', [PostController::class, 'likes']);
 Route::get('casino', [CasinoController::class, 'casinoList']);
 Route::get('casino/{id}', [CasinoController::class, 'casinoDetails']);
 Route::get('category', [CategoryController::class, 'categoryList']);
+
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::get('user',[UserController::class,'userDetails']);
+    Route::patch('user-profile',[UserController::class,'userProfileUpdate']);
+    Route::get('logout',[UserController::class,'logout']);
+});
