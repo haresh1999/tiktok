@@ -26,12 +26,12 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
 
-        User::create($input);
+        $res = User::create($input);
 
         return response()
             ->json([
                 'message' => 'User successfully register!',
-                'data' => [],
+                'data' => $res,
                 'response' => true
             ], 200);
     }
@@ -48,12 +48,12 @@ class UserController extends Controller
 
             $user = auth()->user();
 
-            $token = $user->createToken('MyApp')->plainTextToken;
+            $user->token = $user->createToken('MyApp')->plainTextToken;
 
             return response()
                 ->json([
                     'message' => 'User successfully login!',
-                    'data' => ['token' => $token],
+                    'data' => $user,
                     'response' => true
                 ], 200);
         }
@@ -100,7 +100,7 @@ class UserController extends Controller
             $user->password = bcrypt($input['password']);
         }
 
-        if (isset($v['profile_image'])) {
+        if (isset($input['profile_image'])) {
 
             $user->profile_image = Storage::disk('public')
                 ->put('user_profile_image', $input['profile_image']);
@@ -121,7 +121,7 @@ class UserController extends Controller
         return response()
             ->json([
                 'message' => 'User profile updated successfully!',
-                'data' => [],
+                'data' => auth()->user(),
                 'response' => true
             ], 200);
     }
