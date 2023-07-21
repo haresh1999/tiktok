@@ -138,9 +138,14 @@ class UserController extends Controller
 
         $user = User::where($key, $input['username'])->first();
 
+        $mail = [];
+
+        $mail['email'] = $user->email;
+        $mail['token'] = $token;
+
         $user->update(['remember_token' => $token]);
 
-        Mail::to($user->email)->send(new ForgetPasswordMail($token));
+        Mail::to($user->email)->send(new ForgetPasswordMail($mail));
 
         return response()
             ->json([
