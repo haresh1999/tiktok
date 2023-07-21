@@ -7,7 +7,8 @@ use App\Http\Controllers\{
 	DashboardController,
 	LoginController,
 	PostController,
-	ProfileController
+	ProfileController,
+    UserController
 };
 
 /*
@@ -51,6 +52,8 @@ Route::middleware('admin.auth')->group(function () {
 
 	Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 	Route::post('profile/update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
+	
+	Route::get('user', [UserController::class, 'index'])->name('user');
 
 	Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
