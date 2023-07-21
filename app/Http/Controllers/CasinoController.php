@@ -12,9 +12,22 @@ class CasinoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $casinos = Casino::orderBy('id', 'desc')
+        $casinos = Casino::when(isset($request->name), function ($q) use ($request) {
+            $q->where('title', 'like', "%{$request->name}%");
+            $q->Orwhere('banner_title', 'like', "%{$request->name}%");
+        })
+            ->when(isset($request->status), function ($q) use ($request) {
+                $q->where('status', $request->status);
+            })
+            ->when(isset($request->rating), function ($q) use ($request) {
+                $q->where('rating', $request->rating);
+            })
+            ->when(isset($request->top_rated), function ($q) use ($request) {
+                $q->where('top_rated', $request->top_rated);
+            })
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('casino.list', compact('casinos'));

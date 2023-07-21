@@ -17,6 +17,44 @@
       </div>
     </div>
     <div class="box-body">
+
+      <form action="{{ route('post') }}">
+        <div class="row">
+            <div class="form-group col-md-3">
+                <input class="form-control" type="text" name="name" placeholder="Title"
+                    value="{{ Request::get('name') }}">
+            </div>
+            <div class="form-group col-md-3">
+                <select class="form-control" name="status" id="status">
+                    <option value="" selected>All Status</option>
+                    <option {{ ! is_null(Request::get('status')) && Request::get('status')==1 ? 'selected' : ''
+                        }} value="1">Active</option>
+                    <option {{ ! is_null(Request::get('status')) && Request::get('status')==0 ? 'selected' : ''
+                        }} value="0">InActive</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <select class="form-control" name="category" id="category">
+                    <option value="" selected>All Category</option>
+                    @foreach ($cats as $key => $cat)
+                      <option {{ Request::get('category') == $key ? 'selected' : '' }} value="{{$key}}">{{$cat}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <select class="form-control" name="type" id="type">
+                    <option value="" selected>All Type</option>
+                    <option {{ ! is_null(Request::get('type')) && Request::get('type')=='image' ? 'selected' : '' }} value="image">Image</option>
+                    <option {{ ! is_null(Request::get('type')) && Request::get('type')=='video' ? 'selected' : '' }} value="video">Video</option>
+                </select>
+            </div>
+            <div class="form-group col-md-12 text-center">
+                <button type="submit" class="btn btn-success btn-flat">Search</button>
+                <a href="{{route('post')}}" class="btn btn-danger btn-flat">Clear</a>
+            </div>
+        </div>
+    </form>
+
       <table class="table table-bordered table-striped text-center">
         <thead>
           <tr>

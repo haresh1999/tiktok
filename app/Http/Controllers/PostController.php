@@ -19,10 +19,24 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::with('category')
+            ->when(isset($request->name), function ($q) use ($request){
+                $q->where('title', 'like', "%{$request->name}%");
+            })
+            ->when(isset($request->status), function ($q) use ($request){
+                $q->where('status', $request->status);
+            })
+            ->when(isset($request->category), function ($q) use ($request){
+                $q->where('category_id', $request->category);
+            })
+            ->when(isset($request->type), function ($q) use ($request){
+                $q->where('type', $request->type);
+            })
             ->orderBy('id', 'desc')
             ->paginate(10);
 
-        return view('post.index', compact('posts'));
+        $cats = Category::where('status',1)->pluck('name','id');
+
+        return view('post.index', compact('posts','cats'));
     }
 
     /**

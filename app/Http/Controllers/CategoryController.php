@@ -13,9 +13,15 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(10);
+        $categories = Category::when(isset($request->name), function ($q) use ($request){
+            $q->where('name', 'like', "%{$request->name}%");
+        })
+            ->when(isset($request->status), function ($q) use ($request){
+                $q->where('status', $request->status);
+            })
+            ->paginate(10);
 
         return view('category.list', compact('categories'));
     }

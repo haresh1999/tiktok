@@ -20,6 +20,14 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::orderBy('id','desc')
+            ->paginate(10);
+
+        return view('user.list', compact('users'));
+    }
+
     public function register(RegisterRequest $request)
     {
         $input = $request->validated();
