@@ -11,7 +11,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Category List</h3>
             <div class="pull-right">
-                <a href="{{ route('category.create')}}" class="btn btn-info btn-sm btn-flat"><i
+                <a href="{{ route('category.create')}}" class="btn btn-info btn-xs btn-flat"><i
                         class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Add Category</a>
             </div>
         </div>
