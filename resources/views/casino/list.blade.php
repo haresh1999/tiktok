@@ -14,7 +14,7 @@
         <div class="box-header with-border">
             <h3 class="box-title">Casino List</h3>
             <div class="pull-right">
-                <a href="{{ route('casino.create')}}" class="btn btn-info btn-sm btn-flat"><i class="fa fa-plus-square"
+                <a href="{{ route('casino.create')}}" class="btn btn-info btn-xs btn-flat"><i class="fa fa-plus-square"
                         aria-hidden="true"></i> &nbsp; Add Casino</a>
             </div>
         </div>

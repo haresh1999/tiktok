@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\{
+    Casino,
+    Category,
+    Post,
+    User
+};
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        $data['category'] = Category::count();
+        $data['post'] = Post::count();
+        $data['casino'] = Casino::count();
+        $data['user'] = User::count();
+
+        return view('dashboard', $data);
     }
 }

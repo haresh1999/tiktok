@@ -20,9 +20,22 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('id','desc')
+        $users = User::when(isset($request->name), function ($q) use ($request) {
+            $q->where('name', 'like', "%{$request->name}%");
+        })
+            ->when(isset($request->mobile), function ($q) use ($request) {
+                $q->where('mobile', 'like', "%{$request->mobile}%");
+            })
+            ->when(isset($request->status), function ($q) use ($request) {
+                $q->where('status', $request->status);
+            })
+            ->when(isset($request->email), function ($q) use ($request) {
+                $q->where('email', 'like', "%{$request->email}%");
+                $q->Orwhere('username', 'like', "%{$request->email}%");
+            })
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('user.list', compact('users'));
