@@ -81,7 +81,7 @@
             <td>{{ $post->location }}</td>
             <td>{{ Str::ucfirst($post->type) }}</td>
             <td>
-              <a target="_blank" href="{{ $post->filename }}">
+              <a target="_blank" href="{{ getFile($post->filename) }}">
                 <i class="fa fa-eye"></i>
               </a>
             </td>
