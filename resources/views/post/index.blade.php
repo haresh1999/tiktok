@@ -67,6 +67,7 @@
             <th>Likes</th>
             <th>Views</th>
             <th>Status</th>
+            <th>Created At</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
@@ -93,6 +94,9 @@
             <td>{!! $post->status == 1 ? '<span class="label label-success">Active</span>' : '<span
                 class="label label-danger">InActive</span>' !!}</td>
             <td>
+              <td>
+                {{ dateFormat($post->created_at) }}
+              </td>
               <a href="{{ route('post.edit',$post->id)}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </td>
             <td>

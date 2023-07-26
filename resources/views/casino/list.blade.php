@@ -67,6 +67,7 @@
                         <th>Image</th>
                         <th>Status</th>
                         <th>Top Rated</th>
+                        <th>Created At</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -88,6 +89,9 @@
                                 class="label label-danger">InActive</span>' !!}</td>
                         <td>
                             {{ $casino->top_rated ? 'Yes' : 'No' }}
+                        </td>
+                        <td>
+                            {{ dateFormat($casino->created_at) }}
                         </td>
                         <td><a href="{{ route('casino.edit',$casino->id)}}"><i class="fa fa-pencil-square-o"
                                     aria-hidden="true"></i></a></td>

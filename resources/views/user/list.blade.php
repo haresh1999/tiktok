@@ -71,7 +71,7 @@
                         <td>{!! $user->status == 'Active' ? '<span class="label label-success">Active</span>' : '<span
                                 class="label label-danger">InActive</span>' !!}</td>
                         <td>
-                            {{ $user->created_at }}
+                            {{ dateFormat($user->created_at) }}
                         </td>
                     </tr>
                     @endforeach

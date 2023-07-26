@@ -48,6 +48,7 @@
                         <th>Likes</th>
                         <th>Views</th>
                         <th>Image</th>
+                        <th>Created At</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -63,6 +64,9 @@
                         <td>{{ $category->views }}</td>
                         <td>
                             <img width="100" height="50" src="{{ getImageUrl($category->img) }}" alt="img">
+                        </td>
+                        <td>
+                            {{ dateFormat($category->created_at) }}
                         </td>
                         <td><a href="{{ route('category.edit',$category->id)}}"><i class="fa fa-pencil-square-o"
                                     aria-hidden="true"></i></a></td>
