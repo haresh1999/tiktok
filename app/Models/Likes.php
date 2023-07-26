@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Likes extends Model
+class Likes extends Home
 {
     protected $fillable = [
         'post_id',

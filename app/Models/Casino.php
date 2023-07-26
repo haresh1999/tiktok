@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Casino extends Model
+class Casino extends Home
 {
     protected $fillable = [
         'banner_title',
