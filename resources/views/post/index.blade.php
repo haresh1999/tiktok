@@ -94,9 +94,9 @@
             <td>{!! $post->status == 1 ? '<span class="label label-success">Active</span>' : '<span
                 class="label label-danger">InActive</span>' !!}</td>
             <td>
-              <td>
-                {{ dateFormat($post->created_at) }}
-              </td>
+              {{ dateFormat($post->created_at) }}
+            </td>
+            <td>
               <a href="{{ route('post.edit',$post->id)}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </td>
             <td>
