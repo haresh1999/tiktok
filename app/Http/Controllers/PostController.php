@@ -68,11 +68,17 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
-            'category_id' => 'required|integer'
+            'category_id' => 'required|integer',
+            'image' => 'nullable|image'
         ]);
 
         $input['user_id'] = auth()->id();
         $input['filename'] = uploadImage($request->file, 'posts');
+
+        if ($request->hasFile('image')) {
+
+            $input['image'] = uploadImage($request->image, 'image');
+        }
 
         Post::create($input);
 
@@ -114,16 +120,25 @@ class PostController extends Controller
             'status' => 'required',
             'type' => 'required',
             'html' => 'nullable',
-            'category_id' => 'required|integer'
+            'category_id' => 'required|integer',
+            'image' => 'nullable|image'
         ]);
+
+        $post = Post::find($id);
 
         if ($request->hasFile('file')) {
 
             $input['filename'] = uploadImage($request->file, 'posts');
 
-            $post = Post::find($id);
-
             deleteImage($post->filename);
+        }
+
+        if ($request->hasFile('image')) {
+
+            $input['image'] = uploadImage($request->image, 'image');
+        } else {
+
+            unset($input['image']);
         }
 
         unset($input['file']);
@@ -167,6 +182,7 @@ class PostController extends Controller
                 'filename',
                 'likes',
                 'created_at',
+                'image'
             )
             ->when(isset($request->category), function ($q) use ($request) {
                 $q->where('category_id', $request->category);
@@ -194,6 +210,7 @@ class PostController extends Controller
                 'title',
                 'filename',
                 'created_at',
+                'image'
             )
             ->when(isset($request->category), function ($q) use ($request) {
                 $q->where('category_id', $request->category);
@@ -235,7 +252,8 @@ class PostController extends Controller
                 'created_at',
                 'updated_at',
                 'type',
-                'category_id'
+                'category_id',
+                'image'
             )
             ->where('id', $id)
             ->first();

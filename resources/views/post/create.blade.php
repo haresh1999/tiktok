@@ -47,7 +47,7 @@
 
 
 					<div class="form-group col-md-6">
-						<label>Image or Video</label>
+						<label>Image or Video <font color="red">(Upload Portrait Rresolution)</font></label>
 						<input type="file" name="file" class="form-control">
 						@error('file') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
@@ -66,6 +66,12 @@
 						<label>Description</label>
 						<textarea name="description" class="form-control" rows="3"></textarea>
 						@error('description') <font color="red"> <small> {{$message}} </small></font> @enderror
+					</div>
+
+					<div class="image form-group col-md-6" style="display: none">
+						<label>News Banner <font color="red">(Landscape Resolution)</font></label>
+						<input type="file" class="form-control" name="image">
+						@error('image') <font color="red"> <small> {{$message}} </small></font> @enderror
 					</div>
 
 					<div class="editor form-group col-md-12" style="display: none">
@@ -97,7 +103,9 @@
 $('#type').change(function(e){
 	if ($(this).val() == 'image') {
 		$('.editor').css('display','block')
+		$('.image').css('display','block')
 	}else{
+		$('.image').css('display','none')
 		$('.editor').css('display','none')
 	}
 })

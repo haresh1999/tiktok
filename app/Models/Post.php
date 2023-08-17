@@ -15,7 +15,8 @@ class Post extends Home
         'html',
         'user_id',
         'views',
-        'category_id'
+        'category_id',
+        'image'
     ];
 
     protected $casts = [
