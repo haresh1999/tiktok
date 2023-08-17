@@ -69,7 +69,7 @@ class PostController extends Controller
             'type' => 'required',
             'html' => 'nullable',
             'category_id' => 'required|integer',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,bmp,gif,svg'
         ]);
 
         $input['user_id'] = auth()->id();
@@ -121,7 +121,7 @@ class PostController extends Controller
             'type' => 'required',
             'html' => 'nullable',
             'category_id' => 'required|integer',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,bmp,gif,svg'
         ]);
 
         $post = Post::find($id);
