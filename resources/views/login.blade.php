@@ -22,12 +22,12 @@
       <form action="{{ route('login.submit') }}" method="post">
         @csrf
         <div class="form-group has-feedback">
-          <input type="email" class="form-control" placeholder="Email" name="email">
+          <input type="email" class="form-control" placeholder="Email" name="email" value="admin@gmail.com">
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           @error('email') <font color="red"> <small>{{ $message }}</small> </font> @enderror
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" placeholder="Password" name="password">
+          <input type="password" class="form-control" placeholder="Password" name="password" value="123456">
           <span class="fa fa-lock form-control-feedback"></span>
           @error('password') <font color="red"> <small>{{ $message }}</small> </font> @enderror
         </div>
