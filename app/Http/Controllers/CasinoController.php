@@ -162,7 +162,6 @@ class CasinoController extends Controller
             'url',
             'img'
         )
-            ->whereMonth('created_at', date('m'))
             ->where('top_rated', 0)
             ->where('status', 1)
             ->orderBy('id', 'desc')
